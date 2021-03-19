@@ -1,0 +1,12 @@
+{
+  "name": "UtradeaTest",
+  "displayName": "UtradeaTest",
+  "expo": {
+    "name": "UtradeaTest",
+    "slug": "UtradeaTest",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
