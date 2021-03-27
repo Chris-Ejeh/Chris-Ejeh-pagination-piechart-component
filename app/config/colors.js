@@ -6,4 +6,6 @@ export default {
 	grey: '#f8f4f4',
 	red: '#c1121c',
 	white: '#fff',
+	roufous: '#b30703',
+	capri: '#00bbf9',
 };

@@ -1,7 +1,9 @@
 import React from 'react';
-import Card from './app/components/Card';
-import FeedScreen from './app/Screens/FeedScreen';
+import PaginationComponent from './app/components/pagnation/PaginationComponent';
+import PortfolioComponent from './app/components/picchart/PortfolioComponent';
 
 export default function App() {
-	return <FeedScreen />;
+	//return <PortfolioComponent />;
+
+	return <PaginationComponent />;
 }
