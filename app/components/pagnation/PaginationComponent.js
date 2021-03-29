@@ -1,21 +1,28 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-//import Pagination, { Icon, Dot } from 'react-native-pagination';
-import _ from 'lodash';
-import colors from '../../config/colors';
+import {
+	Dimensions,
+	Text,
+	View,
+	StyleSheet,
+	TouchableOpacity,
+} from 'react-native';
 import Card from './Card';
-import Pagination from './Pagination';
 
 function PaginationComponent(props) {
 	const [newData, setNewData] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [postsPerPage, setPostsPerPage] = useState(5);
-	//const refs = useRef(null);
+	const [selectedData, setSelectedData] = useState(1);
 
-	const Value = '?results=20';
+	//Pagination numbers
+	const pageNumbers = [];
 
+	for (let i = 1; i <= Math.ceil(MyData.length / postsPerPage); i++) {
+		pageNumbers.push(i);
+	}
+
+	//Get data
 	var getData = async () => {
 		try {
 			setLoading(true);
@@ -31,45 +38,71 @@ function PaginationComponent(props) {
 		getData();
 	}, []);
 
-	//Get Current Posts
+	//Get Current Data
 	const indexOfLastPost = currentPage * postsPerPage;
 	const indexOfFirstPost = indexOfLastPost - postsPerPage;
 	const currentPosts = MyData.slice(indexOfFirstPost, indexOfLastPost);
 
-	//console.log(currentPosts);
-	// //Change Page
+	//Change Page
 	const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
 	return (
 		<View style={styles.container}>
 			<Text style={styles.text}>Users</Text>
 			<Card currentPosts={currentPosts} loading={loading} />
-			<TouchableWithoutFeedback
-				style={{
-					borderWidth: 1,
-				}}
-			>
-				<Pagination
-					postsPerPage={postsPerPage}
-					totalPosts={MyData.length}
-					paginate={paginate}
-				/>
-			</TouchableWithoutFeedback>
+
+			<View style={styles.PaginationContainer}>
+				{pageNumbers.map((number, index) => (
+					<TouchableOpacity
+						style={
+							number === selectedData ? styles.selectedButton : styles.button
+						}
+						key={index}
+						onPress={() => {
+							setSelectedData(number);
+							paginate(number);
+						}}
+					>
+						<Text style={styles.number}>{number}</Text>
+					</TouchableOpacity>
+				))}
+			</View>
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		padding: 30,
-		flex: 1,
-		top: 10,
+		marginTop: 50,
+		width: Dimensions.get('window').width,
 		justifyContent: 'center',
-		//alignItems: 'center',
 	},
 	text: {
 		fontWeight: '700',
 		fontSize: 30,
+		padding: 10,
+	},
+	PaginationContainer: {
+		padding: 10,
+		marginBottom: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexDirection: 'row',
+	},
+	selectedButton: {
+		borderRadius: 5,
+		backgroundColor: '#898989',
+		borderWidth: 1,
+	},
+	button: {
+		borderRadius: 5,
+		borderWidth: 1,
+		borderColor: '#00000000',
+	},
+	number: {
+		fontSize: 30,
+		fontWeight: '400',
+		paddingHorizontal: 15,
 	},
 });
 
